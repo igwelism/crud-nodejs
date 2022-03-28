@@ -20,7 +20,7 @@ let app = Vue.createApp({
             "method": "GET"
         }).then(response => response.json())
         .then(data => {
-            this.task = data
+            this.task = data[0].tasks
         })
         }
     }
@@ -55,7 +55,7 @@ app.component('task', {
     props: ['tasks'],
     template: `
         <ul>
-        <li v-for="item in tasks.tasks" :key="item._id">
+        <li v-for="item in tasks" :key="item._id">
             {{ item.name }}
         </li>
         </ul>
