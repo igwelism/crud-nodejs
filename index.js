@@ -5,6 +5,8 @@ import bodyParser from 'body-parser'
 const app = express()
 const PORT = 8000;
 
+app.use(express.static('public'))
+
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
