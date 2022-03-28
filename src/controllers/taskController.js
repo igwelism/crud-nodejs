@@ -29,8 +29,8 @@ export const addNewTask = (req, res) => {
         if(err) {
             res.status(400).send("Error Inserting Task")
         } else {
-            db.collection('tasks').find({}).sort({"start_date": -1}).toArray(function(err, result) {
-                res.json({"tasks":result})
+            db.collection('tasks').find({}).sort({"start_date": -1}).toArray(function(err, tasks) {
+                res.json({tasks})
             })
         }
     })
@@ -69,11 +69,11 @@ export const getTasks = (req, res) => {
             var sort = {"start_date": -1}
       }
     console.log(sort)
-    db.collection('tasks').find(query).sort(sort).toArray(function(err, result) {
+    db.collection('tasks').find(query).sort(sort).toArray(function(err, tasks) {
         if(err) {
             res.status(400).send("Error Getting Tasks")
         } else {
-            res.json({"tasks":result})
+            res.json({tasks})
         }
     })
 }
@@ -93,8 +93,8 @@ export const updateTask = (req, res) => {
         if(result.matchedCount == 0 ) {
             res.status(400).send("Task Not Found")
         } else {
-            db.collection('tasks').find({}).sort({"start_date": -1}).toArray(function(err, result) {
-                res.json({"tasks":result})
+            db.collection('tasks').find({}).sort({"start_date": -1}).toArray(function(err, tasks) {
+                res.json({tasks})
             })
         }
     })
@@ -106,8 +106,8 @@ export const deleteTask = (req, res) => {
         if(err) {
             res.status(400).send("Error Deleting a Task")
         } else {
-            db.collection('tasks').find({}).sort({"start_date": -1}).toArray(function(err, result) {
-                res.json({"tasks":result})
+            db.collection('tasks').find({}).sort({"start_date": -1}).toArray(function(err, tasks) {
+                res.json({tasks})
             })
         }
     })

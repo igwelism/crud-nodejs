@@ -1,5 +1,5 @@
 import { addNewTask, getTasks, updateTask, deleteTask } from '../controllers/taskController'
-import { addNewProject, getProjects, updateProject, deleteProject, assignToProdject, getAProdject } from '../controllers/projectController'
+import { addNewProject, getProjects, updateProject, deleteProject, assignToProdject, getAProject } from '../controllers/projectController'
 
 const routes = (app) => {
     app.route('/task')
@@ -18,7 +18,7 @@ const routes = (app) => {
         .post(addNewProject)
     
     app.route('/project/:projectID')
-        .get(getAProdject)
+        .get(getAProject)
 
         .put(updateProject)
 

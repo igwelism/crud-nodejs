@@ -29,8 +29,8 @@ export const addNewProject = (req, res) => {
         if(err) {
             res.status(400).send("Error Inserting Project")
         } else {
-            db.collection('projects').find({}).sort({"start_date": -1}).toArray(function(err, result) {
-                res.json({"projects":result})
+            db.collection('projects').find({}).sort({"start_date": -1}).toArray(function(err, projects) {
+                res.json({projects})
             })
         }
     })
@@ -81,8 +81,8 @@ export const updateProject = (req, res) => {
         if(result.matchedCount == 0 ) {
             res.status(400).send("Project Not Found")
         } else {
-            db.collection('projects').find({}).sort({"start_date": -1}).toArray(function(err, result) {
-                res.json({"projects":result})
+            db.collection('projects').find({}).sort({"start_date": -1}).toArray(function(err, projects) {
+                res.json({projects})
             })
         }
     })
@@ -104,17 +104,16 @@ export const deleteProject = (req, res) => {
 export const assignToProdject = (req, res) => {
     // Sending request to assing tasks to a project
     var tasks = req.body.taskIds
-    for (let i = 0; i < tasks.length; i++) {
-        // Sending request to update task
-        db.collection('tasks').updateOne({'_id': new mongodb.ObjectId(tasks[i])}, {$set: {product_id: req.params.projectID}}, function(err, result) {
+    tasks.forEach(task => {
+        db.collection('tasks').updateOne({'_id': new mongodb.ObjectId(task)}, {$set: {project_id: req.params.projectID}}, function(err, result) {
             if(err) {
                 res.status(400).send("Error Updating Tasks")
             } else {
-                console.log(`Task ${tasks[i]} has been update successfully`)
+                console.log(`Task ${task} has been update successfully`)
             }
-        })
-    }
-    db.collection('tasks').find({product_id: req.params.projectID}).toArray(function(err, result) {
+        })    
+    });
+    db.collection('tasks').find({project_id: req.params.projectID}).toArray(function(err, result) {
         if(err) {
             res.status(400).send("Error Getting Tasks")
         }
@@ -128,9 +127,9 @@ export const assignToProdject = (req, res) => {
     })
 }
 
-export const getAProdject = (req, res) => {
+export const getAProject = (req, res) => {
     // Sending request to get a project
-    db.collection('tasks').find({product_id: req.params.projectID}).toArray(function(err, result) {
+    db.collection('tasks').find({project_id: req.params.projectID}).toArray(function(err, result) {
         if(err) {
             res.status(400).send("Error Getting Tasks")
         }
